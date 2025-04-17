@@ -6,9 +6,9 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "UEFA Champions League - Quarter Finals 2024/2025",
-  description: "Track the results of the UEFA Champions League Quarter Finals 2024/2025",
-    generator: 'v0.dev'
+  title: "UEFA Champions League - Quarter Finals 2023/2024",
+  description: "Track the results of the UEFA Champions League Quarter Finals 2023/2024",
+    generator: 'UEFA'
 }
 
 export default function RootLayout({

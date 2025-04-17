@@ -41,11 +41,15 @@ export default function MatchList() {
         </div>
       ) : (
         <>
-          <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
-            {currentMatches.map((match) => (
-              <MatchCard key={match.id} match={match} />
-            ))}
-          </div>
+       
+ 
+       <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
+         {currentMatches.map((match) => (
+           // Use fixture.id for the key
+           <MatchCard key={match.fixture.id} match={match} />
+         ))}
+       </div>
+ 
           <Pagination totalMatches={matches.length} matchesPerPage={matchesPerPage} />
         </>
       )}

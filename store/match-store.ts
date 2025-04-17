@@ -1,39 +1,34 @@
+// /store/match-store.ts
 import { create } from "zustand"
-import type { Match } from "@/types/match"
+import type { Fixture, MatchStateData } from "@/types/match" // Import the new types
 
-interface MatchState {
-  matches: Match[]
-  loading: boolean
-  error: string | null
-  currentPage: number
-  fetchMatches: () => Promise<void>
-  setCurrentPage: (page: number) => void
-}
-
-export const useMatchStore = create<MatchState>((set, get) => ({
+// Use the new MatchStateData interface which uses Fixture[]
+export const useMatchStore = create<MatchStateData>((set, get) => ({
   matches: [],
   loading: false,
   error: null,
   currentPage: 1,
 
   fetchMatches: async () => {
-    // Don't fetch if we already have matches
-    if (get().matches.length > 0) return
+    // Don't fetch if we already have matches and aren't currently loading/erroring
+    if (get().matches.length > 0 && !get().loading && !get().error) return
 
     set({ loading: true, error: null })
 
     try {
-      // Use our proxy API route that now returns mock data
+      // Use our proxy API route that now fetches from API-FOOTBALL
       const response = await fetch("/api/matches")
 
       if (!response.ok) {
-        throw new Error(`Failed to fetch matches: ${response.status}`)
+        const errorData = await response.json().catch(() => ({ error: `HTTP error ${response.status}` }))
+        throw new Error(errorData.error || `Failed to fetch matches: ${response.statusText}`)
       }
 
-      const data = await response.json()
+      // The API route now returns an array of Fixture objects directly
+      const matches: Fixture[] = await response.json()
 
-      // Our API now returns { events: [...matches] }
-      const matches = data.events
+      // Sort matches by timestamp (optional, but good practice)
+      matches.sort((a, b) => a.fixture.timestamp - b.fixture.timestamp)
 
       set({ matches, loading: false })
     } catch (error) {
@@ -41,6 +36,7 @@ export const useMatchStore = create<MatchState>((set, get) => ({
       set({
         error: error instanceof Error ? error.message : "An unknown error occurred",
         loading: false,
+        matches: [], // Clear matches on error
       })
     }
   },

@@ -13,7 +13,7 @@ export default function Home() {
             <p className="text-xl font-bold text-[rgb(var(--neon-blue))]">QUARTER FINALS</p>
             <div className="h-px w-16 bg-gradient-to-l from-transparent to-[rgb(var(--neon-pink))]"></div>
           </div>
-          <p className="text-gray-400 italic">2024/2025</p>
+          <p className="text-gray-400 italic">2023/2024</p>
         </header>
         <MatchList />
       </div>

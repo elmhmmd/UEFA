@@ -1,7 +1,7 @@
 export function formatDate(timestamp: number): string {
   const date = new Date(timestamp * 1000)
 
-  // Format date: Apr 15, 2025
+  // Format date: Apr 15, 2023
   const dateOptions: Intl.DateTimeFormatOptions = {
     month: "short",
     day: "numeric",
